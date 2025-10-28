@@ -1,4 +1,4 @@
-from lanchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 def get_embeddings():
     model="sentence-transformers/all-MiniLM-L6-v2"

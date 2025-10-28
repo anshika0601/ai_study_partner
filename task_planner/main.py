@@ -2,6 +2,13 @@ import streamlit as st
 from tasks import TaskManager
 from utils.date_utils import today_str, tomorrow_str, date_to_str
 import datetime
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from utils.llm_utils import get_llm
+from utils.embeddings import get_embeddings
+
+DB_PATH = "database/tasks.db"
 
 st.set_page_config(page_title="Study Partner", layout="wide", page_icon="📚")
 
@@ -113,5 +120,61 @@ else:
           st.success(f"Deleted task: {t['title']}")
           st.rerun()
     st.markdown("---")
+    
+# --- AI STUDY PARTNER TAB ---
+st.markdown("---")
+st.header("🧠 AI Study Partner")
+
+tab1, tab2, tab3 = st.tabs(["Chat with AI", "Generate Study Plan", "Prioritize Tasks"])
+
+def ask_ai(prompt):
+    llm = get_llm()
+    response = llm.invoke(prompt)
+    return response.content
+
+# --- Tab 1: Chat with AI ---
+with tab1:
+    st.subheader("Ask anything to your AI Study Assistant")
+    user_input = st.text_area("Your question:")
+    if st.button("Ask"):
+        if user_input.strip():
+            with st.spinner("Thinking..."):
+                answer = ask_ai(user_input.strip())
+            st.success(answer)
+        else:
+            st.warning("Please type something first.")
+
+# --- Tab 2: Study Plan Generator ---
+with tab2:
+    st.subheader("Generate a Study Plan")
+    goal = st.text_input("What do you want to learn?")
+    duration = st.slider("Duration (days):", 7, 60, 30)
+    if st.button("Generate Plan"):
+        if goal.strip():
+            prompt = f"Create a detailed {duration}-day study plan for learning {goal} with daily goals and milestones."
+            with st.spinner("Generating your plan..."):
+                plan = ask_ai(prompt)
+            st.info(plan)
+        else:
+            st.warning("Enter your goal first.")
+
+# --- Tab 3: Prioritize Tasks ---
+with tab3:
+    st.subheader("AI Task Prioritizer")
+    tasks = tm.get_tasks_by_date(today)
+    if not tasks:
+        st.info("No tasks to analyze.")
+    else:
+        pending_titles = [t['title'] for t in tasks if t['status'] == 'pending']
+        if not pending_titles:
+            st.success("All tasks done 🎉")
+        else:
+            prompt = "You are a productivity assistant. Given these pending tasks, suggest an order of completion based on importance and difficulty:\n" + \
+                     "\\n".join(f"- {t}" for t in pending_titles)
+            if st.button("Prioritize"):
+                with st.spinner("Analyzing..."):
+                    order = ask_ai(prompt)
+                st.info(order)
+    
     
 
