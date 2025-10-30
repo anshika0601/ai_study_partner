@@ -7,6 +7,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.llm_utils import get_llm
 from utils.embeddings import get_embeddings
+from dashboard import show_dashboard
 
 DB_PATH = "database/tasks.db"
 
@@ -175,6 +176,18 @@ with tab3:
                 with st.spinner("Analyzing..."):
                     order = ask_ai(prompt)
                 st.info(order)
-    
+   
+ 
+ # Inside your main Streamlit layout:
+    menu = st.sidebar.radio("📁 Menu", ["Tasks", "Calendar", "Dashboard"])
+ 
+    if menu == "Tasks":
+     # existing task UI 
+     pass
+    elif menu == "Calendar":
+     # calendar + streaks
+     pass
+    elif menu == "Dashboard":
+     show_dashboard()
     
 
