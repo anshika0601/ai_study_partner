@@ -1,7 +1,7 @@
 # dashboard_view.py
 import streamlit as st
 import plotly.express as px
-from analytics import (
+from utils.analytics import (
     get_weekly_summary,
     get_daily_completion_trend,
     get_category_distribution

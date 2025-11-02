@@ -17,15 +17,15 @@ def get_weekly_summary():
     if df.empty:
         return 0, 0, 0
 
-    df["due_date"] = pd.to_datetime(df["due_date"])
+    df["date"] = pd.to_datetime(df["date"])
     today = datetime.today().date()
     week_start = today - timedelta(days=7)
 
     # Filter last 7 days
-    df_week = df[df["due_date"].dt.date >= week_start]
+    df_week = df[df["date"].dt.date >= week_start]
 
     tasks_added = len(df_week)
-    tasks_done = len(df_week[df_week["completed"] == 1])
+    tasks_done = len(df_week[df_week["status"] == "done"])
     completion_rate = round((tasks_done / tasks_added) * 100, 1) if tasks_added > 0 else 0
 
     return tasks_added, tasks_done, completion_rate
@@ -35,10 +35,10 @@ def get_daily_completion_trend():
     if df.empty:
         return pd.DataFrame(columns=["date", "completed_count"])
 
-    df["due_date"] = pd.to_datetime(df["due_date"])
-    df["date"] = df["due_date"].dt.date
+    df["date"] = pd.to_datetime(df["date"])
+    df["date"] = df["date"].dt.date
 
-    daily = df.groupby("date")["completed"].sum().reset_index(name="completed_count")
+    daily = df.groupby("date")["status"].apply(lambda x: (x == "done").sum()).reset_index(name="completed_count")
     return daily
 
 def get_category_distribution():

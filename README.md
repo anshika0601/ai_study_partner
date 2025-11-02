@@ -59,14 +59,16 @@ An AI-powered study partner application designed to help users manage their stud
 ai_study_partner/
 ├── .gitignore                 # Git ignore file (excludes .env)
 ├── README.md                  # This file
-├── requirements.txt           # Pythondependencies             
+├── requirements.txt           # Python dependencies
 ├── database/
 │   └── tasks.db               # SQLite database for tasks
 ├── task_planner/
 │   ├── main.py                # Main Streamlit application
 │   ├── tasks.py               # TaskManager class for database operations
 │   ├── schedular.py           # Script for moving pending tasks
+│   ├── dashboard.py           # Dashboard view with analytics
 │   └── utils/
+│       ├── analytics.py       # Analytics functions for dashboard
 │       └── date_utils.py      # Date utility functions
 └── utils/
     ├── llm_utils.py           # LLM setup with Groq
@@ -82,6 +84,8 @@ ai_study_partner/
 - `python-dotenv`: Environment variable management
 - `groq`: Groq API client
 - `langchain-community`: Community extensions for LangChain
+- `plotly`: For data visualization in dashboard
+- `pandas`: For data manipulation in analytics
 
 ## Contributing
 

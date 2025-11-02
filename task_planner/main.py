@@ -23,7 +23,7 @@ today=today_str()
 tasks=tm.get_tasks_by_date(today)
 
 if not tasks:
-    st.sidebar.info("No task for today.Add some from the main page")
+    st.sidebar.info("No tasks for today. Add some from the main page")
 else:
     st.sidebar.write(f"**{len(tasks)} tasks**")
     for t in tasks:
@@ -171,23 +171,13 @@ with tab3:
             st.success("All tasks done 🎉")
         else:
             prompt = "You are a productivity assistant. Given these pending tasks, suggest an order of completion based on importance and difficulty:\n" + \
-                     "\\n".join(f"- {t}" for t in pending_titles)
+                     "\n".join(f"- {t}" for t in pending_titles)
             if st.button("Prioritize"):
                 with st.spinner("Analyzing..."):
                     order = ask_ai(prompt)
                 st.info(order)
    
  
- # Inside your main Streamlit layout:
-    menu = st.sidebar.radio("📁 Menu", ["Tasks", "Calendar", "Dashboard"])
- 
-    if menu == "Tasks":
-     # existing task UI 
-     pass
-    elif menu == "Calendar":
-     # calendar + streaks
-     pass
-    elif menu == "Dashboard":
-     show_dashboard()
+
     
 
