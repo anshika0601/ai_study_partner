@@ -1,4 +1,4 @@
-# dashboard_view.py
+# dashboard.py
 import streamlit as st
 import plotly.express as px
 from utils.analytics import (

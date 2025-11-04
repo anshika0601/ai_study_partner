@@ -70,7 +70,7 @@ ai_study_partner/
 │   └── utils/
 │       ├── analytics.py       # Analytics functions for dashboard
 │       └── date_utils.py      # Date utility functions
-└── utils/
+└── ai_assistant/
     ├── llm_utils.py           # LLM setup with Groq
     └── embeddings.py          # Embeddings setup with HuggingFace
 ```
